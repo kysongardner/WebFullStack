@@ -1,0 +1,9 @@
+<div class="row">
+    <div class="col-md-5">
+        <cms-contact-list (selectedContactEvent)="selectedContact = $event"></cms-contact-list>
+    </div>
+    <div class="col-md-4">
+        
+        <cms-contact-detail *ngIf="selectedContact !null or undefined" (selectedContact)="contact"></cms-contact-detail>
+    </div>
+</div>
