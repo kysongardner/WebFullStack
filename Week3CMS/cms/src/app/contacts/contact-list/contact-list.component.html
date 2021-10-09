@@ -9,8 +9,13 @@
         <hr>
         <div class="row">
           <div class="col-xs-12">
-            
-           <cms-contact-item  *ngFor="let contact of contacts"[contact-item]="item"(contactSelected)="onSelected(item)"></cms-contact-item>
+            <!-- () give me something from output event emitter -->
+            <!-- [] give me something from an input -->
+           <cms-contact-item  
+           *ngFor="let contact of contacts"
+           [contact]="contact"
+           (contactWasSelected)="onSelected(contact)">
+          </cms-contact-item>
           </div>
         </div>
       </div>
