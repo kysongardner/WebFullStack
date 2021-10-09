@@ -10,7 +10,7 @@ export class MessageListComponent implements OnInit {
 
   @Output() messageWasSelected = new EventEmitter<Message>();
   messages: Message[] = [ new Message("1","subject", "This is a message", "I am the sender!!"),
-  new Message("1","subject", "This is a message", "I am the sender!!"), new Message("1","subject", "This is a message", "I am the sender!!")];
+  new Message("2","subject", "This is a message", "I am the sender!!"), new Message("3","subject", "This is a message", "I am the sender!!")];
 
   constructor() { }
 
