@@ -119,7 +119,14 @@ export const MOCKCONTACTS: Contact[] = [
     imageUrl: '../../assets/images/thompsonda.jpg',
     group: null
   },
-
+  {
+  id: '18',
+      name: 'Kyson Gardner',
+      email: 'kysongardner1@gmail.com',
+      phone: '785-418-5245',
+      imageUrl: '../../assets/images/kysonandsara.jpg',
+      group: null
+  },
   // teams
   // index 13
   {

@@ -9,18 +9,21 @@ export class MessageService {
   messageChangedEvent = new EventEmitter<Message[]>();
   messages: Message[] = [];
 
-  constructor(messages = MOCKMESSAGES) { }
+  constructor() {
+    this.messages = MOCKMESSAGES;
+   }
 
   getMessages(): Message[] {
     return this.messages.slice();
    }
    
-   getMessage(id: string): Message {
+   getMessage(id: string): Message | null{
       for (let message of this.messages) {
         if (message.id == id) {
-          return message
+          return message;
         }
       }
+      return null;
    }
 
    addMessage(message: Message) {

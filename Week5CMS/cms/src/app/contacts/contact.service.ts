@@ -21,11 +21,12 @@ export class ContactService {
     return this.contacts.slice();
    }
    
-   getContact(id: string): Contact {
+   getContact(id: string): Contact | null{
       for (let contact of this.contacts) {
         if (contact.id == id) {
           return contact
         }
       }
+      return null;
    }
 }

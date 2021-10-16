@@ -9,17 +9,20 @@ export class DocumentService {
   documentSelectedEvent = new EventEmitter<Document>();
   documents: Document[] = [];
 
-  constructor(documents = MOCKDOCUMENTS) { }
+  constructor() { 
+    this.documents = MOCKDOCUMENTS;
+  }
 
   getDocuments(): Document[] {
     return this.documents.slice();
    }
    
-   getDocument(id: string): Document {
+   getDocument(id: string): Document | null{
       for (let document of this.documents) {
         if (document.id == id) {
-          return document
+          return document;
         }
       }
+      return null;
    }
 }

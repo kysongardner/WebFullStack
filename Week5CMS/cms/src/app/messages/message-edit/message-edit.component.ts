@@ -11,7 +11,7 @@ export class MessageEditComponent implements OnInit {
  @ViewChild('subject', { static: false}) subjectInputRef!: ElementRef;
  @ViewChild('msgText', { static: false}) messageInputRef!: ElementRef;
  @Output() addMessageEvent = new EventEmitter<Message>();
- currentSender: string = "Kyson Gardner"
+ currentSender: string = "Kyson Gardner";
   constructor(private messageService: MessageService) { }
 
   ngOnInit(): void {
@@ -19,7 +19,7 @@ export class MessageEditComponent implements OnInit {
   onSendMessage() {
     const subjectForMessage = this.subjectInputRef.nativeElement.value;
     const msgTextForMessage = this.messageInputRef.nativeElement.value;
-    const message = new Message("1234", subjectForMessage, msgTextForMessage, this.currentSender);
+    const message = new Message("12345", subjectForMessage, msgTextForMessage, '18');
     this.messageService.addMessage(message);
   }
   onClear() {
