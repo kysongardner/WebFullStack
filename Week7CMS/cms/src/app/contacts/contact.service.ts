@@ -7,8 +7,8 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class ContactService {
-  maxContactId: number;
-  ContactListChangedEvent = new Subject<Contact[]>();
+  maxContactId = 0;
+  contactListChangedEvent = new Subject<Contact[]>();
   contactChangedEvent = new EventEmitter<Contact[]>();
   contacts: Contact[] = [];
   contactSelectedEvent = new EventEmitter<Contact>();
@@ -21,17 +21,17 @@ export class ContactService {
     this.contacts = this.getContacts();
   }
 
-  deleteContact(Contact: Contact) {
-    if(Contact == undefined || null){
+  deleteContact(contact: Contact) {
+    if(contact == undefined || null){
       return;
     }
-    var pos = this.contacts.indexOf(Contact)
+    var pos = this.contacts.indexOf(contact)
     if (pos < 0){
       return;
     }
     this.contacts.splice(pos, 1);
-    var ContactsListClone = this.contacts.slice();
-    this.ContactListChangedEvent.next(ContactsListClone)
+    var contactsListClone = this.contacts.slice();
+    this.contactListChangedEvent.next(contactsListClone)
   }
 
   updateContact(originalContact: Contact, newContact: Contact){
@@ -47,8 +47,8 @@ export class ContactService {
 
     newContact.id = originalContact.id;
     this.contacts[pos] = newContact;
-    var ContactsListClone = this.contacts.slice();
-    this.ContactListChangedEvent.next(ContactsListClone);
+    var contactsListClone = this.contacts.slice();
+    this.contactListChangedEvent.next(contactsListClone);
   }
 
   addContact(newContact: Contact) {
@@ -57,11 +57,11 @@ export class ContactService {
     }
 
     this.maxContactId++;
-    newContact.id = this.maxContactId;
+    newContact.id = `${this.maxContactId}`;
     this.contacts.push(newContact);
-    var ContactsListClone = this.contacts.slice();
+    var contactsListClone = this.contacts.slice();
 
-    this.ContactListChangedEvent.next(ContactsListClone);
+    this.contactListChangedEvent.next(contactsListClone);
   }
 
   getMaxId(): number {

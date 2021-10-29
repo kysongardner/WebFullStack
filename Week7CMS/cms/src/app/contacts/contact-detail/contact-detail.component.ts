@@ -10,7 +10,7 @@ import { ContactService } from '../contact.service';
 })
 export class ContactDetailComponent implements OnInit {
   contacts: Contact[] = [];
-  @Input() contact!: Contact;
+  contact!: Contact;
   id!: string;
 
 

@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class DocumentService {
-  maxDocumentId: number;
+  maxDocumentId = 0;
   documentListChangedEvent = new Subject<Document[]>();
   documentChangedEvent = new EventEmitter<Document[]>();
   documentSelectedEvent = new EventEmitter<Document>();
@@ -54,7 +54,7 @@ export class DocumentService {
     }
 
     this.maxDocumentId++;
-    newDocument.id = this.maxDocumentId;
+    newDocument.id = `${this.maxDocumentId}`;
     this.documents.push(newDocument);
     var documentsListClone = this.documents.slice();
 
