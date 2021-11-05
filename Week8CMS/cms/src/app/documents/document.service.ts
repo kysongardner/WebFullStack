@@ -49,12 +49,12 @@ export class DocumentService {
   }
 
   addDocument(newDocument: Document) {
-    if (newDocument == undefined || null) {
+    if (!newDocument) {
       return;
     }
 
     this.maxDocumentId++;
-    newDocument.id = `${this.maxDocumentId}`;
+    // newDocument.id = `${this.maxDocumentId}`;
     this.documents.push(newDocument);
     var documentsListClone = this.documents.slice();
 

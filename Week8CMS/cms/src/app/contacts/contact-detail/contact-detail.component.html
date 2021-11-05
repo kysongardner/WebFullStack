@@ -7,5 +7,7 @@
       <strong>Email: {{contact?.email}} </strong>
       <br>
       <strong>Phone: {{contact?.phone}}</strong>
+      <strong>Contacts in Teams:</strong>
+        <cms-contact-item *ngFor="let contact of contact.group" [contact]="contact"></cms-contact-item>
   </div>
 </div>

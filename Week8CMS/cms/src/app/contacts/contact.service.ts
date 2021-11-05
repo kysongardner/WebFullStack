@@ -52,15 +52,14 @@ export class ContactService {
   }
 
   addContact(newContact: Contact) {
-    if (newContact == undefined || null) {
+    if (!newContact) {
       return;
     }
 
     this.maxContactId++;
-    newContact.id = `${this.maxContactId}`;
+    // newContact.id = `${this.maxContactId}`;
     this.contacts.push(newContact);
     var contactsListClone = this.contacts.slice();
-
     this.contactListChangedEvent.next(contactsListClone);
   }
 

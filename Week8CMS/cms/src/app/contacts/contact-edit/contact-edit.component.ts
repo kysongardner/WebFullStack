@@ -15,13 +15,14 @@ export class ContactEditComponent implements OnInit {
   groupContacts: Contact[] = [];
   contact: Contact;
   editMode: boolean = false;
+  id: string;
 
   constructor(private contactService: ContactService,
     private router: Router,
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.contactService.contactSelectedEvent.subscribe(
+    this.route.params.subscribe(
       (params: Params) => {
         var id = params.id
         if (!id) {
@@ -35,12 +36,11 @@ export class ContactEditComponent implements OnInit {
         }
         this.editMode = true;
         this.contact = JSON.parse(JSON.stringify(this.originalContact));
-        // HOW TO SEE IF CONTACT HAS A GROUP AND THEN CLONE IT?
+
         if(this.contact.group != null){
           this.groupContacts = this.contact.group;
         }
       }
-
     )
   }
   onCancel() {
@@ -49,7 +49,7 @@ export class ContactEditComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     var value = form.value;
-    var newContact = new Contact("75", value.name, value.email, value.phone, value.url, this.groupContacts);
+    var newContact = new Contact(Math.floor(Math.random() * 10000000).toString(), value.name, value.email, value.phone, value.url, this.groupContacts);
     if (this.editMode == true) {
       this.contactService.updateContact(this.originalContact, newContact);
     }

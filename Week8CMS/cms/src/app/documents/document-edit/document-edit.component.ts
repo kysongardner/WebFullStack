@@ -22,7 +22,7 @@ export class DocumentEditComponent implements OnInit {
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.documentService.documentSelectedEvent.subscribe(
+    this.route.params.subscribe(
       (params: Params) => {
         var id = params.id
         if (!id) {
@@ -34,6 +34,8 @@ export class DocumentEditComponent implements OnInit {
         if (!this.originalDocument) {
           return
         }
+        
+
         this.editMode = true;
         this.document = JSON.parse(JSON.stringify(this.originalDocument));
       }
@@ -46,8 +48,7 @@ export class DocumentEditComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     var value = form.value;
-    var newDocument = new Document("50", value.title, value.description, value.url, value.children);
-    console.log(newDocument);
+    var newDocument = new Document(Math.floor(Math.random() * 10000000).toString(), value.title, value.description, value.url, value.children);
     if (this.editMode == true) {
       this.documentService.updateDocument(this.originalDocument, newDocument);
     }
