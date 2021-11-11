@@ -1,0 +1,14 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <a [routerLink]="['edit']" class="btn btn-primary">Edit</a>
+    <a (click)="onDelete()" class="btn btn-danger">Delete</a>
+  </div>
+  <div class="panel-body">
+      <strong>Email: {{contact?.email}} </strong>
+      <br>
+      <strong>Phone: {{contact?.phone}}</strong>
+      <br>
+      <strong>Contacts in Team:</strong>
+        <cms-contact-item *ngFor="let contact of contact.group" [contact]="contact"></cms-contact-item>
+  </div>
+</div>

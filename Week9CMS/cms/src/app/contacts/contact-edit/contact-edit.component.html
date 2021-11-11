@@ -1,0 +1,98 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+      <form id="contact-edit" (ngSubmit)="onSubmit(f)" #f="ngForm">
+        <div class="row">
+          <div class="col-sm-12 form-group">
+            <label for="name">Name:</label>
+            <input
+            name="name"
+            ngModel
+            #name="ngModel"
+            type="text"
+            id="name"
+            class="form-control"
+            size="120"
+            max="120"
+            required>
+          </div>
+        </div>
+  
+        <div class="row">
+          <div class="col-sm-12 form-group">
+            <label for="email">Email:</label>
+            <input
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+            email
+            name="email"
+            ngModel
+            #email="ngModel"
+            id="email"
+            class="form-control"
+            size="120"
+            max="255"
+            required>
+              <div *ngIf="email.touched && !email.valid">Enter a valid Email address</div>
+          </div>
+        </div>
+  
+        <div class="row">
+          <div class="col-sm-12 form-group">
+            <label for="phone">Phone:</label>
+            <input
+            pattern="\D*([2-9]\d{2})(\D*)([2-9]\d{2})(\D*)(\d{4})\D*"
+            name="phone"
+            ngModel
+            #phone="ngModel"
+              type="text"
+              id="phone"
+              class="form-control"
+              size="150"
+              max="255">
+            <div *ngIf="phone.touched && !phone.valid">Enter a valid phone number</div>
+          </div>
+        </div>
+  
+        <div class="row">
+          <div class="col-sm-12 form-group">
+            <label for="imageUrl">Image URL:</label>
+            <input
+            name="url"
+            #url="ngModel"
+            ngModel="../../assets/images/kysonandsara.jpg"
+              type="text"
+              id="imageUrl"
+              class="form-control"
+              size="150"
+              max="255">
+          </div>
+        </div>
+  
+        <div class="row">
+          <div class="form-group">
+            <label for="groupList">Group Contacts:</label>
+  
+            <div class="row" id="groupList"
+                style="min-height: 3rem;" 
+                dnd-droppable [dropZones]="['contactGroup']" (onDropSuccess)="addToGroup($event)">
+  
+              <div *ngFor="let contact of groupContacts; let i = index">
+                <div>
+                  <cms-contact-item class="col-sm-11" [contact]="contact"></cms-contact-item>
+                  <button class="btn btn-danger col-sm-2 deleteButton" (click)="onRemoveItem(i)">X</button>
+                </div>
+              </div>
+              <span class="dragMsg" *ngIf="groupContacts?.length < 1">Drag contacts in group here</span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 btn-toolbar">
+            <button class="btn btn-success" type="submit" *ngIf="f.valid">Save</button>
+            <button class="btn btn-primary" type="button" (click)="onCancel()">Cancel</button>
+          </div>
+          <div class="alert alert-danger" *ngIf="(!name.touched && !f.valid) || (!email.touched && !f.valid)" >The Name and Email fields are required.</div>
+        </div>
+      </form>
+    </div>
+  </div>
+  
