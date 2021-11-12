@@ -9,6 +9,6 @@
       <strong>Phone: {{contact?.phone}}</strong>
       <br>
       <strong>Contacts in Team:</strong>
-        <cms-contact-item *ngFor="let contact of contact.group" [contact]="contact"></cms-contact-item>
+        <cms-contact-item *ngFor="let contact of contact?.group" [contact]="contact"></cms-contact-item>
   </div>
 </div>

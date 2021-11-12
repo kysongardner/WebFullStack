@@ -88,8 +88,8 @@ export class DocumentService {
     .subscribe((documents: Document[]) => {
       this.documents = documents;
       this.maxDocumentId = this.getMaxId();
-      // HOW TO DO SORT METHOD??
-      this.documents.sort();
+      
+      this.documents.sort((a,b) => parseInt(a.id) > parseInt(b.id) ? 1 : 0);
       var documentsListClone = this.documents.slice();
 
       this.documentListChangedEvent.next(documentsListClone);

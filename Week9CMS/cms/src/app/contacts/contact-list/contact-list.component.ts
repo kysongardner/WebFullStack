@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Contact } from '../contact.model';
@@ -12,7 +12,7 @@ import { ContactService } from '../contact.service';
 export class ContactListComponent implements OnInit {
   subscription: Subscription;
   @Output() selectedContactEvent = new EventEmitter<Contact>();
-  contacts: Contact[] = []
+  contacts: Contact[] = [];
   term: string;
 
   constructor(private contactService: ContactService,

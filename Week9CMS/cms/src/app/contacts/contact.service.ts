@@ -15,7 +15,6 @@ export class ContactService {
   contacts: Contact[] = [];
 
   constructor(private httpClient: HttpClient) {
-    this.contacts = MOCKCONTACTS;
   }
 
   ngOnInit() {
@@ -90,14 +89,13 @@ export class ContactService {
     .subscribe((contacts:Contact[]) => {
       this.contacts = contacts;
       this.maxContactId = this.getMaxId();
-      // HOW TO DO SORT METHOD??
-      this.contacts.sort();
+      
+      this.contacts.sort((a,b) => parseInt(a.id) > parseInt(b.id) ? 1 : 0);
       var contactsListClone = this.contacts.slice();
 
       this.contactListChangedEvent.next(contactsListClone);
     },
     (error: any) => {
-      console.log(error);
     }
     )
     return this.contacts;

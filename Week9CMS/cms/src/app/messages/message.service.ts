@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { Contact } from '../contacts/contact.model';
+import { ContactService } from '../contacts/contact.service';
 import { Message } from './message.model';
 import { MOCKMESSAGES } from './MOCKMESSAGES';
 
@@ -13,7 +14,6 @@ export class MessageService {
   maxMessageId: number;
 
   constructor(private httpClient: HttpClient) {
-    this.messages = MOCKMESSAGES;
    }
 
    getMaxId(): number {
@@ -41,8 +41,8 @@ export class MessageService {
     .subscribe((messages: Message[]) => {
       this.messages = messages;
       this.maxMessageId = this.getMaxId();
-      // HOW TO DO SORT METHOD??
-      this.messages.sort();
+     
+      this.messages.sort((a,b) => parseInt(a.id) > parseInt(b.id) ? 1 : 0);
       var messagesListClone = this.messages.slice();
     },
     (error: any) => {
@@ -62,6 +62,7 @@ export class MessageService {
    }
 
    addMessage(message: Message) {
+      this.messages.push(message);
       this.storeMessages();
    }
 

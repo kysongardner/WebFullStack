@@ -14,9 +14,9 @@ export class ContactsFilterPipe implements PipeTransform {
           contact.name.toLowerCase().includes(term.toLowerCase())
       );
     }
-    if (filteredContacts.length < 1) {
-      return contacts;
+    if (filteredContacts.length) {
+      return filteredContacts;
     }
-    return filteredContacts;
+    return contacts;
   }
 }
