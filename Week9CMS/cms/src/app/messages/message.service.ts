@@ -20,7 +20,7 @@ export class MessageService {
      var maxId = 0;
 
      this.messages.forEach((message) => {
-       var currentId = +message.id;
+       var currentId = +message?.id;
        if (currentId > maxId) {
          maxId = currentId;
        }
