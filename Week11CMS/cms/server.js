@@ -16,10 +16,6 @@ const documentsRoutes = require('./server/routes/documents');
 
 var app = express(); // create an instance of express
 
-// mongoose.connect("mongodb+srv://kysongardner:thf2UX7zlarP77MJ@cluster0.xhmbx.mongodb.net/test");
-
-// Make sure models are correct with referencing other model
-
 
 
 
@@ -57,7 +53,7 @@ app.use('/contacts', contactsRoutes);
 app.use('/documents', documentsRoutes);
 
 // establish a connection to the mongo database
-mongoose.connect('mongodb://localhost:27017/cms',
+mongoose.connect("mongodb+srv://kysongardner:thf2UX7zlarP77MJ@cluster0.xhmbx.mongodb.net/cms",
    { useNewUrlParser: true }, (err, res) => {
       if (err) {
          console.log('Connection failed: ' + err);

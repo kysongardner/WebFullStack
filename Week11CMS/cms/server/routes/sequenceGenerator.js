@@ -8,7 +8,7 @@ var sequenceId = null;
 function SequenceGenerator() {
 
   Sequence.findOne()
-    .exec(function(err, sequence) {
+    .exec(function(err, Sequence) {
       if (err) {
         return res.status(500).json({
           title: 'An error occurred',
@@ -16,10 +16,10 @@ function SequenceGenerator() {
         });
       }
 
-      sequenceId = sequence._id;
-      maxDocumentId = sequence.maxDocumentId;
-      maxMessageId = sequence.maxMessageId;
-      maxContactId = sequence.maxContactId;
+      sequenceId = Sequence._id;
+      maxDocumentId = Sequence.maxDocumentId;
+      maxMessageId = Sequence.maxMessageId;
+      maxContactId = Sequence.maxContactId;
     });
 }
 

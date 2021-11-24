@@ -74,7 +74,7 @@ export class ContactService {
 
   getMaxId(): number {
     var maxId = 0;
-
+    console.log(this.contacts);
     this.contacts.forEach((contact) => {
       var currentId = +contact.id;
       if (currentId > maxId) {

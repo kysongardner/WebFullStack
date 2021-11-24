@@ -41,6 +41,7 @@ export class MessageService {
 
         this.messages.sort((a, b) => parseInt(a.id) > parseInt(b.id) ? 1 : 0);
         var messagesListClone = this.messages.slice();
+        this.messageChangedEvent.next(messagesListClone);
       },
         (error: any) => {
           console.log(error);
