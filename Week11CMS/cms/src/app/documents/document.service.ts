@@ -19,6 +19,76 @@ export class DocumentService {
     this.maxDocumentId = this.getMaxId();
   }
 
+  addDocument(document: Document) {
+    if (!document) {
+      return;
+    }
+
+    // make sure id of the new Document is empty
+    document.id = '';
+
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    // add to database
+    this.httpClient.post<{ message: string, document: Document }>('http://localhost:3000/documents',
+      document,
+      { headers: headers })
+      .subscribe(
+        (responseData) => {
+          // add new document to documents
+          this.documents.push(responseData.document);
+          this.storeDocuments();
+        }
+      );
+  }
+
+  getDocuments(): Document[] {
+    this.httpClient.get<Document[]>('http://localhost:3000/documents')
+      .subscribe((documents: Document[]) => {
+        console.log(documents);
+        this.documents = documents;
+        this.maxDocumentId = this.getMaxId();
+
+        this.documents.sort((a, b) => parseInt(a.id) > parseInt(b.id) ? 1 : 0);
+        var documentsListClone = this.documents.slice();
+
+        this.documentListChangedEvent.next(documentsListClone);
+      },
+        (error: any) => {
+          console.log(error);
+        }
+      )
+    return this.documents;
+  }
+
+  updateDocument(originalDocument: Document, newDocument: Document) {
+    if (!originalDocument || !newDocument) {
+      return;
+    }
+
+    const pos = this.documents.findIndex(d => d.id === originalDocument.id);
+
+    if (pos < 0) {
+      return;
+    }
+
+    // set the id of the new Document to the id of the old Document
+    newDocument.id = originalDocument.id;
+    // newDocument._id = originalDocument._id;
+
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    // update database
+    this.httpClient.put('http://localhost:3000/documents/' + originalDocument.id,
+      newDocument, { headers: headers })
+      .subscribe(
+        (response: Response) => {
+          this.documents[pos] = newDocument;
+          this.storeDocuments();
+        }
+      );
+  }
+
   deleteDocument(document: Document) {
 
     if (!document) {
@@ -41,57 +111,13 @@ export class DocumentService {
       );
   }
 
-  updateDocument(originalDocument: Document, newDocument: Document) {
-    if (!originalDocument || !newDocument) {
-      return;
-    }
-
-    const pos = this.documents.findIndex(d => d.id === originalDocument.id);
-
-    if (pos < 0) {
-      return;
-    }
-
-    // set the id of the new Document to the id of the old Document
-    newDocument.id = originalDocument.id;
-    // newDocument._id = originalDocument._id;
-
-    const headers = new HttpHeaders({'Content-Type': 'application/json'});
-
-    // update database
-    this.httpClient.put('http://localhost:3000/documents/' + originalDocument.id,
-      newDocument, { headers: headers })
-      .subscribe(
-        (response: Response) => {
-          this.documents[pos] = newDocument;
-          this.storeDocuments();
-        }
-      );
+  storeDocuments() {
+    this.httpClient.get('http://localhost:3000/documents/')
+      .subscribe(() => {
+        var documentsListClone = this.documents.slice();
+        this.documentListChangedEvent.next(documentsListClone);
+      })
   }
-
-  
-addDocument(document: Document) {
-  if (!document) {
-    return;
-  }
-
-  // make sure id of the new Document is empty
-  document.id = '';
-
-  const headers = new HttpHeaders({'Content-Type': 'application/json'});
-
-  // add to database
-  this.httpClient.post<{ message: string, document: Document }>('http://localhost:3000/documents',
-    document,
-    { headers: headers })
-    .subscribe(
-      (responseData) => {
-        // add new document to documents
-        this.documents.push(responseData.document);
-        this.storeDocuments();
-      }
-    );
-}
 
   getMaxId(): number {
     var maxId = 0;
@@ -103,33 +129,6 @@ addDocument(document: Document) {
       }
     })
     return maxId;
-  }
-
-  storeDocuments() {
-    this.httpClient.put('http://localhost:3000/documents', this.documents)
-    .subscribe(() => {
-      var documentsListClone = this.documents.slice();
-
-      this.documentListChangedEvent.next(documentsListClone);
-    })
-  }
-
-  getDocuments(): Document[] {
-    this.httpClient.get<Document[]>('http://localhost:3000/documents')
-    .subscribe((documents: Document[]) => {
-      this.documents = documents;
-      this.maxDocumentId = this.getMaxId();
-      
-      this.documents.sort((a,b) => parseInt(a.id) > parseInt(b.id) ? 1 : 0);
-      var documentsListClone = this.documents.slice();
-
-      this.documentListChangedEvent.next(documentsListClone);
-    },
-    (error: any) => {
-      console.log(error);
-    }
-    )
-    return this.documents;
   }
 
   getDocument(id: string) {

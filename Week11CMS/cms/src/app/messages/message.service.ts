@@ -13,24 +13,29 @@ export class MessageService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getMaxId(): number {
-    var maxId = 0;
 
-    this.messages.forEach((message) => {
-      var currentId = +message?.id;
-      if (currentId > maxId) {
-        maxId = currentId;
-      }
-    });
-    return maxId;
-  }
+  addMessage(message: Message) {
+    if (!message) {
+      return;
+    }
 
-  storeMessages() {
-    this.httpClient.put('http://localhost:3000/messages/', this.messages)
-      .subscribe(() => {
-        var messagesListClone = this.messages.slice();
-        this.messageChangedEvent.next(messagesListClone);
-      })
+    // make sure id of the new message is empty
+    message.id = '';
+
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    // add to database
+    this.httpClient.post<{ aMessage: string, message: Message }>('http://localhost:3000/messages',
+      message,
+      { headers: headers })
+      .subscribe(
+        (responseData) => {
+          console.log(message);
+          // add new message to messages
+          this.messages.push(responseData.message);
+          this.storeMessages();
+        }
+      );
   }
 
   getMessages(): Message[] {
@@ -50,19 +55,8 @@ export class MessageService {
     return this.messages;
   }
 
-  getMessage(id: string): Message | null {
-    for (let message of this.messages) {
-      if (message.id == id) {
-        return message;
-      }
-    }
-    return null;
-  }
 
-  addMessage(message: Message) {
-    this.messages.push(message);
-    this.storeMessages();
-  }
+
   updateMessage(originalMessage: Message, newMessage: Message) {
     if (!originalMessage || !newMessage) {
       return;
@@ -110,6 +104,34 @@ export class MessageService {
           this.storeMessages();
         }
       );
+  }
+  storeMessages() {
+    this.httpClient.get('http://localhost:3000/messages/')
+      .subscribe(() => {
+        var messagesListClone = this.messages.slice();
+        this.messageChangedEvent.next(messagesListClone);
+      })
+  }
+
+  getMaxId(): number {
+    var maxId = 0;
+
+    this.messages.forEach((message) => {
+      var currentId = +message?.id;
+      if (currentId > maxId) {
+        maxId = currentId;
+      }
+    });
+    return maxId;
+  }
+
+  getMessage(id: string): Message | null {
+    for (let message of this.messages) {
+      if (message.id == id) {
+        return message;
+      }
+    }
+    return null;
   }
 
 }

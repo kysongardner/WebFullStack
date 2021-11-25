@@ -1,4 +1,5 @@
 var express = require('express');
+const sequenceGenerator = require('./sequenceGenerator');
 var router = express.Router();
 const Message = require('../models/message');
 module.exports = router;
@@ -19,21 +20,22 @@ router.get('/', (req, res, next) => {
 
 
 router.post('/', (req, res, next) => {
-  const maxMessageId = sequenceGenerator.nextId("Messages");
+
+  console.log("in messages post", req.body);
+  const maxMessageId = sequenceGenerator.nextId("messages");
 
   const message = new Message({
     id: maxMessageId,
-    name: req.body.name,
-    description: req.body.description,
-    url: req.body.url
+    subject: req.body.subject,
+    msgText: req.body.msgText,
+    sender: req.body.sender
   });
-
-  Message.save()
+  console.log(message);
+  message.save()
     .then(createdMessage => {
-      res.status(201).json({
-        message: 'Message added successfully',
-        Message: createdMessage
-      });
+      res.status(201).json(
+        createdMessage
+        );
     })
     .catch(error => {
       res.status(500).json({
@@ -48,10 +50,10 @@ router.put('/:id', (req, res, next) => {
   Message.findOne({
       id: req.params.id
     })
-    .then(Message => {
-      message.name = req.body.name;
-      message.description = req.body.description;
-      message.url = req.body.url;
+    .then(message => {
+      message.subject = req.body.subject;
+      message.msgText = req.body.msgText;
+      message.sender = req.body.sender;
 
       Message.updateOne({
           id: req.params.id

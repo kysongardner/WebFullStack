@@ -1,4 +1,5 @@
 var express = require('express');
+const sequenceGenerator = require('./sequenceGenerator');
 var router = express.Router();
 var Contact = require('../models/contact');
 module.exports = router;
@@ -20,16 +21,20 @@ router.get('/', (req, res, next) => {
 
 router.post('/', (req, res, next) => {
   const maxContactId = sequenceGenerator.nextId("contacts");
-
+  console.log(req.body);
   const contact = new Contact({
     id: maxContactId,
     name: req.body.name,
-    description: req.body.description,
-    url: req.body.url
+    email: req.body.email,
+    phone: req.body.phone,
+    imageUrl: req.body.imageUrl,
+    group: req.body.groupList
   });
+  console.log(contact);
 
   contact.save()
     .then(createdContact => {
+      console.log(createdContact, "created contact");
       res.status(201).json({
         message: 'Contact added successfully',
         contact: createdContact
@@ -45,6 +50,7 @@ router.post('/', (req, res, next) => {
 
 
 router.put('/:id', (req, res, next) => {
+  console.log("in route");
   Contact.findOne({
       id: req.params.id
     })
