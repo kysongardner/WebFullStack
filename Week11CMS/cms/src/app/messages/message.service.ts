@@ -33,6 +33,8 @@ export class MessageService {
           console.log(message);
           // add new message to messages
           this.messages.push(responseData.message);
+          var messagesListClone = this.messages.slice();
+          this.messageChangedEvent.next(messagesListClone);
           this.storeMessages();
         }
       );
